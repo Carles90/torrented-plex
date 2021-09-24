@@ -16,4 +16,16 @@ public class ApplicationProperties {
     public String getJacketApiKey() {
         return env.getProperty("jacket.api.key");
     }
+
+    public String getQBittorrentApiUrl() {
+        return env.getProperty("qbittorrent.api.url");
+    }
+
+    public String getQBittorrentApiUser() {
+        return env.getProperty("qbittorrent.api.user");
+    }
+
+    public String getQBittorrentApiPassword() {
+        return env.getProperty("qbittorrent.api.password");
+    }
 }
