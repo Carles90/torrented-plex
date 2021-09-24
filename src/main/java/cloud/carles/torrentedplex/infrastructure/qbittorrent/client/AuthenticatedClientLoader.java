@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 @Service
 public class AuthenticatedClientLoader {
@@ -14,9 +15,10 @@ public class AuthenticatedClientLoader {
     private ApplicationProperties properties;
 
     private OkHttpClient cachedClient = null;
+    private Calendar cachedClientExpires = null;
 
     public OkHttpClient execute() throws QBittorrentLoginException {
-        if (cachedClient == null) {
+        if (cachedClient == null || isCacheExpired()) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.cookieJar(new PersistentCookieJar());
             OkHttpClient client = builder.build();
@@ -45,8 +47,20 @@ public class AuthenticatedClientLoader {
             }
 
             cachedClient = client;
+
+            cachedClientExpires = Calendar.getInstance();
+            cachedClientExpires.add(Calendar.MINUTE, 15);
         }
 
         return cachedClient;
+    }
+
+    private boolean isCacheExpired() {
+        if (cachedClientExpires == null) {
+            return true;
+        }
+
+        Calendar now = Calendar.getInstance();
+        return now.getTimeInMillis() > cachedClientExpires.getTimeInMillis();
     }
 }
