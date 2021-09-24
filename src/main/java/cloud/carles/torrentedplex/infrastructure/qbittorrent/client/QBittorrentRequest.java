@@ -29,4 +29,15 @@ public class QBittorrentRequest {
 
         return client.newCall(request).execute();
     }
+
+    public Response get(String path) throws QBittorrentLoginException, IOException {
+        OkHttpClient client = authenticatedClientLoader.execute();
+
+        Request request = new Request.Builder()
+                .url(properties.getQBittorrentApiUrl() + path)
+                .get()
+                .build();
+
+        return client.newCall(request).execute();
+    }
 }

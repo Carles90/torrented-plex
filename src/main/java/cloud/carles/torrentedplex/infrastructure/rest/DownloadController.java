@@ -2,7 +2,9 @@ package cloud.carles.torrentedplex.infrastructure.rest;
 
 import cloud.carles.torrentedplex.application.dto.SuccessResponse;
 import cloud.carles.torrentedplex.application.dto.download.DownloadRequest;
+import cloud.carles.torrentedplex.application.exception.DownloadListNotProvidedException;
 import cloud.carles.torrentedplex.application.exception.DownloadNotAddedException;
+import cloud.carles.torrentedplex.application.service.download.DownloadListProvider;
 import cloud.carles.torrentedplex.application.service.download.DownloadProcessor;
 import cloud.carles.torrentedplex.infrastructure.gson.GsonContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class DownloadController {
     @Autowired
     DownloadProcessor downloadProcessor;
 
+    @Autowired
+    DownloadListProvider downloadListProvider;
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String download(@RequestBody DownloadRequest download) throws DownloadNotAddedException {
         downloadProcessor.execute(download);
@@ -22,8 +27,8 @@ public class DownloadController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getDownloads() {
-        return GsonContainer.get().toJson(new SuccessResponse());
+    public String getDownloads() throws DownloadListNotProvidedException {
+        return GsonContainer.get().toJson(downloadListProvider.execute());
     }
 
     @PostMapping(path = "/{fileId}/pause", produces = MediaType.APPLICATION_JSON_VALUE)
