@@ -9,12 +9,12 @@ public class ApplicationProperties {
     @Autowired
     private Environment env;
 
-    public String getJacketApiUrl() {
-        return env.getProperty("jacket.api.url");
+    public String getJackettApiUrl() {
+        return env.getProperty("jackett.api.url");
     }
 
-    public String getJacketApiKey() {
-        return env.getProperty("jacket.api.key");
+    public String getJackettApiKey() {
+        return env.getProperty("jackett.api.key");
     }
 
     public String getQBittorrentApiUrl() {

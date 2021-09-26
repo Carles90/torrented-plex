@@ -1,4 +1,4 @@
-package cloud.carles.torrentedplex.infrastructure.jacket;
+package cloud.carles.torrentedplex.infrastructure.jackett;
 
 import cloud.carles.torrentedplex.application.ApplicationProperties;
 import okhttp3.HttpUrl;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class JacketRequest {
+public class JackettRequest {
     @Autowired
     private ApplicationProperties properties;
 
@@ -23,7 +23,7 @@ public class JacketRequest {
     }
 
     public InputStream get(String path, Map<String, String> parameters) throws IOException {
-        HttpUrl.Builder httpBuilder = HttpUrl.parse(properties.getJacketApiUrl() + path).newBuilder();
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(properties.getJackettApiUrl() + path).newBuilder();
 
         for (Map.Entry<String, String> param : parameters.entrySet()) {
             httpBuilder.addQueryParameter(param.getKey(), param.getValue());

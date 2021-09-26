@@ -1,8 +1,8 @@
-package cloud.carles.torrentedplex.infrastructure.jacket.dto;
+package cloud.carles.torrentedplex.infrastructure.jackett.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JacketSearchResult {
+public class JackettSearchResult {
     @JsonProperty("Title")
     private String title;
 
@@ -21,7 +21,7 @@ public class JacketSearchResult {
     @JsonProperty("Tracker")
     private String tracker;
 
-    public JacketSearchResult() {
+    public JackettSearchResult() {
 
     }
 

@@ -1,0 +1,54 @@
+version: "2.1"
+services:
+  jackett:
+    image: ghcr.io/linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - AUTO_UPDATE=true
+    volumes:
+      - ${TPLEX_JACKETT_CONFIG_DIR}:/config
+    ports:
+      - ${TPLEX_JACKETT_PORT}:${TPLEX_JACKETT_PORT}
+    restart: unless-stopped
+
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - WEBUI_PORT=${TPLEX_QBITTORRENT_WEBUI_PORT}
+    volumes:
+      - ${TPLEX_QBITTORRENT_CONFIG_DIR}:/config
+      - ${TPLEX_QBITTORRENT_DOWNLOADS_DIR}:/downloads
+    ports:
+      - ${TPLEX_QBITTORRENT_PORT}:${TPLEX_QBITTORRENT_PORT}
+      - ${TPLEX_QBITTORRENT_PORT}:${TPLEX_QBITTORRENT_PORT}/udp
+      - ${TPLEX_QBITTORRENT_WEBUI_PORT}:${TPLEX_QBITTORRENT_WEBUI_PORT}
+    restart: unless-stopped
+
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM=${TPLEX_PLEX_CLAIM}
+    volumes:
+      - ${TPLEX_PLEX_CONFIG_DIR}:/config
+      - ${TPLEX_QBITTORRENT_DOWNLOADS_DIR}:/movies
+    restart: unless-stopped
+
+  tplex:
+    build: .
+    container_name: tplex
+    environment:
+      - TPLEX_JACKETT_API_URL=${TPLEX_JACKETT_API_URL}
+      - TPLEX_JACKETT_API_KEY=${TPLEX_JACKETT_API_KEY}
+      - TPLEX_QBITTORRENT_API_URL=${TPLEX_QBITTORRENT_API_URL}
+      - TPLEX_QBITTORRENT_USER=${TPLEX_QBITTORRENT_USER}
+      - TPLEX_QBITTORRENT_PASSWORD=${TPLEX_QBITTORRENT_PASSWORD}

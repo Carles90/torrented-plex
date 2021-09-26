@@ -1,4 +1,4 @@
-package cloud.carles.torrentedplex.infrastructure.jacket.dto;
+package cloud.carles.torrentedplex.infrastructure.jackett.dto;
 
 import cloud.carles.torrentedplex.application.dto.search.SearchResult;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JacketSearchResponse {
+public class JackettSearchResponse {
     @JsonProperty("Results")
-    private List<JacketSearchResult> results;
+    private List<JackettSearchResult> results;
 
-    public JacketSearchResponse() {
+    public JackettSearchResponse() {
 
     }
 
