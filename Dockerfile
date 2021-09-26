@@ -5,7 +5,7 @@ RUN gradle build --no-daemon
 
 FROM openjdk:11-jre-slim
 
-EXPOSE 8080
+EXPOSE ${TPLEX_API_PORT}
 
 RUN mkdir /app
 
